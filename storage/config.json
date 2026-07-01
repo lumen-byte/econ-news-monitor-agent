@@ -1,0 +1,29 @@
+{
+  "countries": [
+    "us",
+    "in",
+    "gb"
+  ],
+  "keywords": [
+    "inflation",
+    "gdp",
+    "interest rate",
+    "monetary policy",
+    "unemployment",
+    "recession"
+  ],
+  "cronInterval": "0 * * * *",
+  "enabled": true,
+  "country": "us",
+  "topics": [
+    "inflation",
+    "gdp",
+    "interest rate",
+    "monetary policy",
+    "unemployment",
+    "recession"
+  ],
+  "refreshInterval": "*/5 * * * *",
+  "competitors": [],
+  "sources": []
+}

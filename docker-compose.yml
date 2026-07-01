@@ -1,0 +1,18 @@
+services:
+  news-monitor-agent:
+    build: .
+    container_name: econ-news-monitor-agent
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - LOG_LEVEL=info
+      # Load secret tokens directly from host machine environment or .env file
+      - NEWS_API_KEY=${NEWS_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      # Persist flat file storage and logs across container recycles
+      - ./storage:/usr/src/app/storage
+      - ./logs:/usr/src/app/logs
+    restart: unless-stopped

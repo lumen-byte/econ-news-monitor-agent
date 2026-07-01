@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Economic News Monitor Agent Dashboard</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="h-full flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Navigation Bar -->
+  <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-40">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 shadow-lg shadow-indigo-500/30">
+          <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="width" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          </svg>
+        </span>
+        <div>
+          <h1 class="text-lg font-bold text-white tracking-tight">EconNews Monitor</h1>
+          <p class="text-xs text-indigo-400 font-medium">Autonomous Intelligence Agent</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          Agent Live
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <main class="flex-1 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Top Grid: Execution Status & Action Panel -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Current Configuration Stats -->
+      <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 flex flex-col justify-between">
+        <div>
+          <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Agent Settings</h2>
+          <div class="mt-4 space-y-3">
+            <div>
+              <span class="text-sm text-slate-400">Monitored Country</span>
+              <p id="config-country" class="text-lg font-bold text-white uppercase mt-0.5">-</p>
+            </div>
+            <div>
+              <span class="text-sm text-slate-400">Polling Interval</span>
+              <p id="config-interval" class="text-sm font-semibold text-indigo-300 mt-0.5">-</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-800/60 flex flex-wrap gap-2" id="config-topics">
+          <!-- Topics will load here dynamically -->
+        </div>
+      </section>
+
+      <!-- Execution Performance Metrics -->
+      <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 flex flex-col justify-between">
+        <div>
+          <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">System Health & Stats</h2>
+          <div class="mt-4 space-y-3">
+            <div>
+              <span class="text-sm text-slate-400">Last Checked</span>
+              <p id="last-run" class="text-sm font-semibold text-white mt-0.5">Never</p>
+            </div>
+            <div>
+              <span class="text-sm text-slate-400">Articles Evaluated</span>
+              <p id="articles-count" class="text-sm font-bold text-indigo-300 mt-0.5">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
+          <span>Scheduler Status:</span>
+          <span id="scheduler-status" class="font-semibold text-slate-200">Checking...</span>
+        </div>
+      </section>
+
+      <!-- Trigger Actions -->
+      <section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 flex flex-col justify-between">
+        <div>
+          <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Interactive Trigger</h2>
+          <p class="text-sm text-slate-400 mt-2">
+            Manually force the AI agent to search, fetch, and evaluate news using GNews and the Gemini LLM.
+          </p>
+        </div>
+        <button id="trigger-btn" class="w-full mt-6 flex items-center justify-center gap-2 rounded-xl bg-indigo-600 py-3 text-sm font-semibold text-white hover:bg-indigo-500 active:bg-indigo-700 transition shadow-lg shadow-indigo-500/20 disabled:opacity-50">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Run Agent Analysis
+        </button>
+      </section>
+
+    </div>
+
+    <!-- Main Content: Reports & Analyses -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-white tracking-tight">Macroeconomic Reports</h2>
+          <p class="text-sm text-slate-400">Generated automatically by Gemini based on monitored articles</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <select id="filter-sentiment" class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-medium text-slate-300 focus:outline-none focus:border-indigo-500">
+            <option value="">All Sentiment</option>
+            <option value="Positive">Positive</option>
+            <option value="Neutral">Neutral</option>
+            <option value="Negative">Negative</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Reports List Container -->
+      <div id="reports-list" class="space-y-4">
+        <!-- Loading Indicator -->
+        <div class="text-center py-12 text-slate-500 text-sm">
+          Loading economic intelligence reports...
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-900/20 py-6 mt-12 text-center text-xs text-slate-500">
+    <p>Clean Architecture Economic News Monitoring Agent • Recruiter-Friendly Live Demo</p>
+  </footer>
+
+  <!-- Frontend Dashboard Logic -->
+  <script>
+    const API_URL = '/api';
+
+    // Helper: Formats timestamp
+    function formatTime(isoString) {
+      if (!isoString) return 'Never';
+      const date = new Date(isoString);
+      return date.toLocaleString();
+    }
+
+    // Load configurations
+    async function loadConfig() {
+      try {
+        const res = await fetch(`${API_URL}/config`);
+        const result = await res.json();
+        if (result.success && result.data) {
+          const config = result.data;
+          document.getElementById('config-country').textContent = config.country;
+          document.getElementById('config-interval').textContent = config.refreshInterval;
+
+          // Render topics
+          const container = document.getElementById('config-topics');
+          container.innerHTML = '';
+          config.topics.forEach(topic => {
+            const span = document.createElement('span');
+            span.className = 'inline-flex items-center rounded-md bg-indigo-400/10 px-2 py-1 text-xs font-medium text-indigo-400 ring-1 ring-inset ring-indigo-400/30';
+            span.textContent = topic;
+            container.appendChild(span);
+          });
+        }
+      } catch (err) {
+        console.error('Failed to load configuration status.', err);
+      }
+    }
+
+    // Load running status stats
+    async function loadStatus() {
+      try {
+        const res = await fetch(`${API_URL}/monitor/status`);
+        const result = await res.json();
+        if (result.success && result.data) {
+          const stats = result.data;
+          document.getElementById('scheduler-status').textContent = stats.scheduler.scheduled ? `Active (${stats.scheduler.expression})` : 'Stopped';
+          
+          if (stats.lastExecution) {
+            document.getElementById('last-run').textContent = formatTime(stats.lastExecution.timestamp);
+            document.getElementById('articles-count').textContent = stats.lastExecution.processedCount;
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load system stats.', err);
+      }
+    }
+
+    // Load news reports
+    async function loadReports() {
+      const sentimentFilter = document.getElementById('filter-sentiment').value;
+      const reportsContainer = document.getElementById('reports-list');
+      
+      try {
+        let url = `${API_URL}/monitor`;
+        if (sentimentFilter) {
+          url += `?sentiment=${sentimentFilter}`;
+        }
+        
+        const res = await fetch(url);
+        const result = await res.json();
+        
+        if (result.success) {
+          if (!result.data || result.data.length === 0) {
+            reportsContainer.innerHTML = `
+              <div class="text-center py-12 rounded-2xl border border-dashed border-slate-800 bg-slate-900/10 text-slate-500 text-sm">
+                No economic reports match the criteria. Try triggering the pipeline manually.
+              </div>
+            `;
+            return;
+          }
+
+          reportsContainer.innerHTML = '';
+          result.data.forEach(report => {
+            // Determine sentiment badge style
+            let badgeClass = 'bg-slate-500/10 text-slate-400 ring-slate-500/30';
+            if (report.sentiment === 'Positive') badgeClass = 'bg-emerald-500/10 text-emerald-400 ring-emerald-500/20';
+            if (report.sentiment === 'Negative') badgeClass = 'bg-rose-500/10 text-rose-400 ring-rose-500/20';
+
+            const card = document.createElement('div');
+            card.className = 'rounded-2xl border border-slate-800 bg-slate-900/30 p-6 space-y-4 hover:border-slate-700 transition duration-200';
+            card.innerHTML = `
+              <div class="flex flex-wrap items-start justify-between gap-4">
+                <div class="space-y-1">
+                  <span class="inline-flex items-center rounded-md bg-indigo-500/10 px-2 py-0.5 text-xs font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                    ${report.impactCategory || 'Macroeconomics'}
+                  </span>
+                  <h3 class="text-lg font-bold text-white">${report.title}</h3>
+                  <p class="text-xs text-slate-500">Source: ${report.source} • Country: <span class="uppercase">${report.country}</span> • Analyzed on: ${formatTime(report.createdAt)}</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-semibold ring-1 ring-inset ${badgeClass}">
+                    ${report.sentiment} Sentiment
+                  </span>
+                  <span class="inline-flex items-center rounded-md bg-blue-500/10 px-2 py-1 text-xs font-semibold text-blue-400 ring-1 ring-inset ring-blue-500/20">
+                    Confidence: ${report.relevanceScore}%
+                  </span>
+                </div>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">${report.summary}</p>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-800/60 text-xs">
+                <div class="space-y-1.5">
+                  <span class="font-bold text-slate-400">Macro Impact Assessment:</span>
+                  <p class="text-slate-300 leading-relaxed">${report.impact || 'Not specified'}</p>
+                </div>
+                <div class="space-y-1.5">
+                  <span class="font-bold text-slate-400">Affected Sectors & Outlook:</span>
+                  <p class="text-slate-300 leading-relaxed">
+                    <strong>Industries:</strong> ${(report.affectedIndustries || []).join(', ') || 'N/A'}<br>
+                    <strong>Outlook:</strong> ${report.futureOutlook || 'N/A'}
+                  </p>
+                </div>
+              </div>
+            `;
+            reportsContainer.appendChild(card);
+          });
+        }
+      } catch (err) {
+        reportsContainer.innerHTML = `<div class="text-center py-12 text-rose-500 text-sm">Failed to retrieve macroeconomic reports.</div>`;
+      }
+    }
+
+    // Trigger pipeline manually
+    document.getElementById('trigger-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('trigger-btn');
+      btn.disabled = true;
+      btn.textContent = 'Executing AI Monitoring...';
+      
+      try {
+        const res = await fetch(`${API_URL}/trigger`, { method: 'POST' });
+        const result = await res.json();
+        if (result.success) {
+          alert('Autonomous pipeline execution finished successfully!');
+        } else {
+          alert('Execution failed: ' + (result.error || result.message));
+        }
+      } catch (err) {
+        alert('API error while triggering run.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Run Agent Analysis
+        `;
+        await loadStatus();
+        await loadReports();
+      }
+    });
+
+    document.getElementById('filter-sentiment').addEventListener('change', loadReports);
+
+    // Initial load
+    async function init() {
+      await loadConfig();
+      await loadStatus();
+      await loadReports();
+    }
+    
+    init();
+  </script>
+</body>
+</html>

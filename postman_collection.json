@@ -1,0 +1,418 @@
+{
+  "info": {
+    "_postman_id": "8f8e8e8e-9d9d-4c4c-8b8b-e8e8e8e8e8e8",
+    "name": "Economic News Monitoring Agent",
+    "description": "API collection for managing and monitoring the Economic News Monitoring Agent.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Monitoring",
+      "item": [
+        {
+          "name": "Get Health Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Health Check",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"status\": \"healthy\",\n  \"timestamp\": \"2026-07-01T10:30:00.000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get News Reports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/monitor?country=us&category=Monetary%20Policy&sentiment=Positive&limit=5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "monitor"
+              ],
+              "query": [
+                {
+                  "key": "country",
+                  "value": "us"
+                },
+                {
+                  "key": "category",
+                  "value": "Monetary Policy"
+                },
+                {
+                  "key": "sentiment",
+                  "value": "Positive"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Retrieval",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"count\": 1,\n  \"data\": [\n    {\n      \"id\": \"abc123xyz456\",\n      \"createdAt\": \"2026-07-01T10:35:00.000Z\",\n      \"title\": \"Bank of England raises policy rate to 5.25%\",\n      \"description\": \"The Bank of England has raised interest rates for the 14th consecutive time.\",\n      \"url\": \"https://news.example.com/boe-rate-raise\",\n      \"source\": \"Financial Times\",\n      \"publishedAt\": \"2026-07-01T09:00:00.000Z\",\n      \"country\": \"gb\",\n      \"sentiment\": \"Neutral\",\n      \"relevanceScore\": 95,\n      \"importance\": \"High\",\n      \"reasoning\": \"Direct monetary policy action shifting the macroeconomic base rate.\",\n      \"impactCategory\": \"Monetary Policy\",\n      \"impact\": \"Higher borrowing costs for consumers and businesses.\",\n      \"affectedIndustries\": [\"Banking\", \"Real Estate\"],\n      \"futureOutlook\": \"Potential growth slowdown.\",\n      \"summary\": \"The Bank of England increased its base rate by 25 basis points to 5.25%.\"\n    }\n  ]\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Configuration",
+      "item": [
+        {
+          "name": "Get Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/config",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "config"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Retrieval",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"us\",\n    \"topics\": [\"inflation\", \"gdp\"],\n    \"competitors\": [],\n    \"sources\": [],\n    \"refreshInterval\": \"0 * * * *\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add Topic",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topic\": \"interest rate hike\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/topics",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "topics"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Addition",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"us\",\n    \"topics\": [\"inflation\", \"gdp\", \"interest rate hike\"],\n    \"competitors\": [],\n    \"sources\": [],\n    \"refreshInterval\": \"0 * * * *\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Remove Topic",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topic\": \"interest rate hike\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/topics",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "topics"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Removal",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"us\",\n    \"topics\": [\"inflation\", \"gdp\"],\n    \"competitors\": [],\n    \"sources\": [],\n    \"refreshInterval\": \"0 * * * *\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add Source",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"bloomberg\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/sources",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "sources"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Addition",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"us\",\n    \"topics\": [\"inflation\", \"gdp\"],\n    \"competitors\": [],\n    \"sources\": [\"bloomberg\"],\n    \"refreshInterval\": \"0 * * * *\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Remove Source",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"bloomberg\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/sources",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "sources"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Removal",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"us\",\n    \"topics\": [\"inflation\", \"gdp\"],\n    \"competitors\": [],\n    \"sources\": [],\n    \"refreshInterval\": \"0 * * * *\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add Competitor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"competitor\": \"competitor-x\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/competitors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "competitors"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Addition",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"us\",\n    \"topics\": [\"inflation\", \"gdp\"],\n    \"competitors\": [\"competitor-x\"],\n    \"sources\": [],\n    \"refreshInterval\": \"0 * * * *\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Remove Competitor",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"competitor\": \"competitor-x\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/competitors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "competitors"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Removal",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"us\",\n    \"topics\": [\"inflation\", \"gdp\"],\n    \"competitors\": [],\n    \"sources\": [],\n    \"refreshInterval\": \"0 * * * *\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Country",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"country\": \"gb\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/country",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "country"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Update",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"gb\",\n    \"topics\": [\"inflation\", \"gdp\"],\n    \"competitors\": [],\n    \"sources\": [],\n    \"refreshInterval\": \"0 * * * *\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Refresh Interval",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshInterval\": \"*/5 * * * *\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/refresh",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "refresh"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Successful Update",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"country\": \"gb\",\n    \"topics\": [\"inflation\", \"gdp\"],\n    \"competitors\": [],\n    \"sources\": [],\n    \"refreshInterval\": \"*/5 * * * *\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
